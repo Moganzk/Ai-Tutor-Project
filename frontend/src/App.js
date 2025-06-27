@@ -5,6 +5,7 @@ import './App.css';
 // Components
 import Header from './Components/Header';
 import Footer from './Components/Footer';
+import ProtectedRoute from './Components/ProtectedRoute';
 
 // Pages
 import Home from './Pages/Home';
@@ -13,6 +14,11 @@ import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import Profile from './Pages/Profile';
 import Settings from './Pages/Settings';
+import Notifications from './Pages/Notifications';
+import Resources from './Pages/Resources';
+import Reminders from './Pages/Reminders';
+import ForgotPassword from './Pages/ForgotPassword';
+import ResetPassword from './Pages/ResetPassword';
 
 // Context
 import { AuthProvider } from './context/AuthContext';
@@ -25,12 +31,20 @@ function App() {
           <Header />
           <main className="main-content">
             <Routes>
-              <Route path="/" element={<Home />} />
+              {/* Public routes */}
               <Route path="/about" element={<About />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+
+              {/* Protected routes */}
+              <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+              <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
+              <Route path="/reminders" element={<ProtectedRoute><Reminders /></ProtectedRoute>} />
             </Routes>
           </main>
           <Footer />

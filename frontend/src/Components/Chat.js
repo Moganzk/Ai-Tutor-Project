@@ -71,53 +71,61 @@ const Chat = () => {
   };
 
   return (
-    <div className="chat-container">
-      <div className="chat-header">
-        <Bot size={20} />
-        <span>AI Tutor Chat</span>
-      </div>
-      
-      <div className="chat-messages">
-        {messages.map((message) => (
-          <div key={message.id} className={`message ${message.type}`}>
-            <div className="message-content">
-              {message.content}
+    <div className="page-container">
+      <section className="section section-chat">
+        <div className="card chat-card">
+          <div className="card-header chat-header flex-between">
+            <div className="flex items-center gap-2">
+              <Bot size={20} />
+              <span className="card-title">AI Tutor Chat</span>
             </div>
-            <div className="message-time">
-              {formatTime(message.timestamp)}
-            </div>
+            <span className="badge badge-success">Online</span>
           </div>
-        ))}
-        
-        {isLoading && (
-          <div className="message ai">
-            <div className="message-content">
-              <div className="loading"></div>
-              <span>Thinking...</span>
-            </div>
+          <div className="card-body chat-messages">
+            {messages.map((message) => (
+              <div key={message.id} className={`chat-bubble ${message.type === 'ai' ? 'chat-bubble-ai' : 'chat-bubble-user'}`}> 
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={`avatar avatar-xs ${message.type === 'ai' ? 'avatar-ai' : 'avatar-user'}`}>{message.type === 'ai' ? <Bot size={16} /> : <User size={16} />}</span>
+                  <span className="bubble-sender text-xs font-semibold">{message.type === 'ai' ? 'AI Tutor' : 'You'}</span>
+                  <span className="bubble-time text-xs text-muted">{formatTime(message.timestamp)}</span>
+                </div>
+                <div className="bubble-content">{message.content}</div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="chat-bubble chat-bubble-ai typing-indicator">
+                <div className="typing-dots">
+                  <span className="typing-dot"></span>
+                  <span className="typing-dot"></span>
+                  <span className="typing-dot"></span>
+                </div>
+                <span className="ml-2 text-muted">AI is thinking…</span>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
-        )}
-        
-        <div ref={messagesEndRef} />
-      </div>
-      
-      <form onSubmit={handleSendMessage} className="chat-input-container">
-        <input
-          type="text"
-          value={inputMessage}
-          onChange={(e) => setInputMessage(e.target.value)}
-          placeholder="Ask me anything about your studies..."
-          className="chat-input"
-          disabled={isLoading}
-        />
-        <button 
-          type="submit" 
-          className="send-btn"
-          disabled={isLoading || !inputMessage.trim()}
-        >
-          <Send size={20} />
-        </button>
-      </form>
+          <form onSubmit={handleSendMessage} className="card-footer chat-input-row flex gap-2">
+            <input
+              type="text"
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              placeholder="Ask me anything about your studies..."
+              className="input input-lg flex-1"
+              disabled={isLoading}
+              aria-label="Type your message"
+              autoComplete="off"
+            />
+            <button 
+              type="submit" 
+              className="btn btn-primary btn-lg flex items-center gap-1"
+              disabled={isLoading || !inputMessage.trim()}
+              aria-label="Send message"
+            >
+              <Send size={20} />
+            </button>
+          </form>
+        </div>
+      </section>
     </div>
   );
 };

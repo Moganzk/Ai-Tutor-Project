@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../supabaseClient';
 
 const SignIn = () => {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -20,15 +24,17 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // TODO: Implement actual authentication
-    console.log('Sign in attempt:', formData);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Handle success/error
-    }, 2000);
+    try {
+      await login(formData.email, formData.password);
+      navigate('/');
+    } catch (error) {
+      alert(error.message);
+    }
+    setIsLoading(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    await supabase.auth.signInWithOAuth({ provider: 'google' });
   };
 
   return (
@@ -111,7 +117,7 @@ const SignIn = () => {
           </div>
 
           <div className="social-auth">
-            <button className="btn btn-secondary social-btn">
+            <button className="btn btn-secondary social-btn" onClick={handleGoogleLogin}>
               Continue with Google
             </button>
           </div>

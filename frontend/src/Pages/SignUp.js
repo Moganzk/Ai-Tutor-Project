@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_KEY);
+import { supabase } from '../supabaseClient';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +13,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -33,8 +32,7 @@ const SignUp = () => {
       return;
     }
 
-    // Supabase sign up
-    const { user, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
       options: { data: { name: formData.name } }
@@ -43,9 +41,14 @@ const SignUp = () => {
     if (error) {
       alert(error.message);
     } else {
-      // Success logic
+      alert('Check your email for a confirmation link!');
+      navigate('/signin');
     }
     setIsLoading(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    await supabase.auth.signInWithOAuth({ provider: 'google' });
   };
 
   return (
@@ -164,7 +167,7 @@ const SignUp = () => {
           </div>
 
           <div className="social-auth">
-            <button className="btn btn-secondary social-btn">
+            <button className="btn btn-secondary social-btn" onClick={handleGoogleLogin}>
               Continue with Google
             </button>
           </div>
