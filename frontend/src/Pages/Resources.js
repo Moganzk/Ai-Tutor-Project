@@ -135,6 +135,15 @@ const Resources = () => {
     return typeInfo ? typeInfo.name : 'Resource';
   };
 
+  // Helper for fallback thumbnail
+  const handleImgError = (e) => {
+    e.target.onerror = null;
+    e.target.src = 'https://via.placeholder.com/300x200/cccccc/ffffff?text=No+Image';
+    e.target.style.filter = 'grayscale(0.7) blur(0.5px)';
+    e.target.style.objectFit = 'contain';
+    e.target.style.background = '#f1f5f9';
+  };
+
   return (
     <div className="resources-page">
       {/* Header */}
@@ -198,7 +207,7 @@ const Resources = () => {
               .map(resource => (
                 <div key={resource.id} className="resource-card featured">
                   <div className="resource-thumbnail">
-                    <img src={resource.thumbnail} alt={resource.title} />
+                    <img src={resource.thumbnail} alt={resource.title} onError={handleImgError} />
                     <div className="resource-type">
                       {getTypeIcon(resource.type)}
                       {getTypeName(resource.type)}
@@ -248,7 +257,7 @@ const Resources = () => {
           {filteredResources.map(resource => (
             <div key={resource.id} className="resource-card">
               <div className="resource-thumbnail">
-                <img src={resource.thumbnail} alt={resource.title} />
+                <img src={resource.thumbnail} alt={resource.title} onError={handleImgError} />
                 <div className="resource-type">
                   {getTypeIcon(resource.type)}
                   {getTypeName(resource.type)}
@@ -301,4 +310,4 @@ const Resources = () => {
   );
 };
 
-export default Resources; 
+export default Resources;

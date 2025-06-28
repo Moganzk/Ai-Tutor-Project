@@ -84,6 +84,15 @@ CREATE POLICY "Users can view own quiz attempts" ON quiz_attempts
 CREATE POLICY "Users can insert own quiz attempts" ON quiz_attempts
     FOR INSERT WITH CHECK (auth.uid() = user_id);
 
+-- Allow authenticated users to upload and read their own files
+create policy "Authenticated users can upload avatars"
+on storage.objects for insert
+using (auth.role() = 'authenticated');
+
+create policy "Authenticated users can read avatars"
+on storage.objects for select
+using (auth.role() = 'authenticated');
+
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$

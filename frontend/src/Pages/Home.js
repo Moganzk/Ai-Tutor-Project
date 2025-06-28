@@ -134,12 +134,17 @@ const Home = () => {
           {/* Tab Content */}
           <div className="tab-content">
             {activeTab === 'tutor' && (
-              <div className="tutor-section card card-hover">
-                <div className="section-header">
-                  <h2 className="section-title">AI Tutor Platform</h2>
-                  <p className="page-subtitle">Access the full MoganSpace Live platform with advanced AI tutoring capabilities.</p>
+              <div className="tutor-section card card-hover" style={{ padding: '2.5rem 2rem', borderRadius: '22px', boxShadow: '0 4px 24px rgba(79,124,255,0.10)', background: 'linear-gradient(120deg, var(--primary-lightest) 60%, #fff 100%)', marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 380 }}>
+                <div className="section-header text-center" style={{ width: '100%' }}>
+                  <h2 className="section-title" style={{ color: 'var(--accent-dark)', fontWeight: 800, fontSize: '2rem', marginBottom: '0.5rem', letterSpacing: '-0.5px' }}>AI Tutor Platform</h2>
+                  <p className="page-subtitle" style={{ color: 'var(--neutral-500)', fontSize: '1.1rem', marginBottom: '1.5rem' }}>Access the full MoganSpace Live platform with advanced AI tutoring capabilities.</p>
                 </div>
-                <TutorIframe />
+                <div style={{ width: '100%', maxWidth: 700, minHeight: 220, borderRadius: '18px', overflow: 'hidden', background: '#f8fafc', boxShadow: '0 2px 12px rgba(79,124,255,0.07)', marginBottom: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <TutorIframe />
+                </div>
+                <div style={{ width: '100%', textAlign: 'left', color: 'var(--neutral-600)', fontSize: '1rem', marginTop: '0.5rem' }}>
+                  <b>Note:</b> This platform is powered by MoganSpace Live. For the best experience, you can also open it in a new tab.
+                </div>
               </div>
             )}
 

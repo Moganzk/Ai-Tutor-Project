@@ -217,7 +217,7 @@
 /* Scroll to top button */
 .scroll-to-top {
   position: absolute;
-  top: -25px;
+  top: 20px; /* was -25px, now inside the footer */
   right: 5%;
   width: 50px;
   height: 50px;
@@ -280,9 +280,9 @@
 @media (max-width: 768px) {
   .scroll-to-top {
     right: 50%;
+    top: 20px;
     transform: translateX(50%);
   }
-  
   .scroll-to-top:hover {
     transform: translateX(50%) translateY(-5px);
   }
